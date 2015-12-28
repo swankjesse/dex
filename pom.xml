@@ -19,6 +19,7 @@
   <modules>
     <module>dx</module>
     <module>dex</module>
+    <module>example</module>
   </modules>
 
   <properties>
