@@ -41,7 +41,8 @@ public final class PrintMethods {
       for (ClassData.Method method : classData.allMethods()) {
         MethodId sourceMethodId = dex.methodIds().get(method.getMethodIndex());
         String sourceMethodName = dex.strings().get(sourceMethodId.getNameIndex());
-        System.out.println(sourceClassName + "." + sourceMethodName);
+        System.out.println(sourceClassName + "." + sourceMethodName
+            + "; code size=" + codeSize(dex, method));
 
         if (method.getCodeOffset() == 0) continue;
 
@@ -55,5 +56,14 @@ public final class PrintMethods {
         codeReader.visitAll(dex.readCode(method).getInstructions());
       }
     }
+  }
+
+  private static int codeSize(Dex dex, ClassData.Method method) {
+    int codeOffset = method.getCodeOffset();
+    if (codeOffset == 0) return 0;
+
+    Dex.Section section = dex.open(codeOffset);
+    section.readCode(); // Read the code so that we can advance its position.
+    return section.getPosition() - codeOffset;
   }
 }

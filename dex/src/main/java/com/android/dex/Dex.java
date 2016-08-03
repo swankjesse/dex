@@ -639,7 +639,7 @@ public final class Dex {
                     staticValuesOffset);
         }
 
-        private Code readCode() {
+        public Code readCode() {
             int registersSize = readUnsignedShort();
             int insSize = readUnsignedShort();
             int outsSize = readUnsignedShort();
